@@ -1,0 +1,60 @@
+---
+title: "Assignment 7 rstudio"
+output: html_document
+date: "2022-12-07"
+---
+```{r}
+
+
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(forcats)
+library(lubridate)
+
+```
+
+```{r}
+df<-read_csv('List of best selling nintendo videogames/List of best selling nintendo videogames.csv');df
+```
+
+```{r}
+colnames(df)
+```
+```{r}
+platform.list <-unique(df$Platform);platform.list
+
+```
+
+```{r}
+unique(df$Publisher)
+
+```
+
+```{r}
+df %>%
+  ggplot(aes(y = Platform, color = Platform)) + geom_bar()
+```
+
+```{r}
+df %>%
+  factor(df$Game, levels = df$Game[order(df$Sales)])
+ggplot(df, aes(Platform, Sales, color = Platform)) + geom_bar(stat = "identity") + coord_flip()
+```
+```{r}
+df$`Release date`<- as.Date(mdy(df$`Release date`), format = "%m-%d-%y")
+head(df$`Release date`)
+```
+```{r}
+
+df%>% arrange(mdy(df$`Release date`))%>%
+  ggplot(aes(`Release date`, Sales, color = Platform)) + geom_point()
+
+```
+
+```{r}
+
+ggplot(df, aes(Publisher, Sales)) + geom_boxplot() + coord_flip()
+                                                 
+```
+
